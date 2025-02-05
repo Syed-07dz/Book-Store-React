@@ -12,6 +12,8 @@ function Banner() {
     <span className="text-pink-500">new everyday!!!</span>
   
     </h1>
+
+    
     <p className="text-xl">
     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, et totam. 
     Tempora amet atque expedita, quae corrupti totam sed pariatur corporis at veniam est voluptas animi!
@@ -32,7 +34,7 @@ function Banner() {
   </div>
   <button className="btn mt-6 btn-secondary">Secondary</button>
   </div>
-  <div ClasName="order-1 w- full md:w-1/2">
+  <div ClasName="order-1w- full md:w-1/2">
   <img src={banner} className="w-92 h-92" alt="" />
   </div>
   </div>
