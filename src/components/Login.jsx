@@ -25,6 +25,8 @@ function Login() {
         className="w-80 px-3 py-1 border-md outline-none"
         {...register("email", { required: true })}
         />
+         <br />
+        {errors.email && <span className="text-sem text-red-500">This field is required</span>}
     </div>
     {/* Password */}
     <div className="mt-4 space-y-2">
@@ -35,6 +37,8 @@ function Login() {
          className="w-80 px-3 py-1 border-md outline-none"
          {...register("password", { required: true })}
          />
+         <br />
+         {errors.password && <span className="text-sem text-red-500">This field is required</span>}
     </div>
     {/* Button */}
      <div className="flex justify-around mt-4">
