@@ -7,14 +7,14 @@ function Banner() {
   <div className="max-w-screen-2xl container mx-auto md:px-20 px-4 flex flex-col md:flex-row my-10">
   <div ClasName="w-full order-2 md:order-1 md:w-1/2 mt-12 md:mt-32">
   <div className="space-y-12">
-  <h1 className="text-4xl front-bold"> 
+  <h1 className="text-4xl front-bold"  style={{marginTop:"50px"}}> 
     Hello, welcome here to learn something {" "}
     <span className="text-pink-500">new everyday!!!</span>
   
     </h1>
 
     
-    <p className="text-xl">
+    <p className="text-xl " style={{marginTop:"50px"}}>
     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, et totam. 
     Tempora amet atque expedita, quae corrupti totam sed pariatur corporis at veniam est voluptas animi!
     </p>
