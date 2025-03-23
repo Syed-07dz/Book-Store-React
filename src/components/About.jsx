@@ -1,77 +1,73 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React from "react";
 
-function AboutForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [feedbackSent, setFeedbackSent] = useState(false);
-
-  const onSubmit = (data) => {
-    console.log(data);
-    setFeedbackSent(true); // Set feedbackSent to true once the form is submitted
-  };
-
+const Navbar = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-slate-800">
-      <div className="w-full max-w-md p-6 bg-white dark:bg-slate-900 shadow-md rounded-lg">
-        <h3 className="text-2xl font-bold text-center">Tell Us About Yourself</h3>
-        
-        {/* Display success message */}
-        {feedbackSent && (
-          <div className="bg-green-500 text-white p-2 rounded-md text-center mb-4">
-            Thank you for your feedback!
-          </div>
-        )}
+    <nav className="flex justify-between items-center p-4 bg-white shadow-md">
+      <h1 className="text-lg font-bold">Bookstore</h1>
+      <div className="flex items-center space-x-4">
+       
+        <a href="/" className="text-gray-700">Home</a>
+        <a href="/course" className="text-gray-700">Course</a>
+        <a href="/Contact" className="text-gray-700">Contact</a>
+        <a href="/About" className="text-gray-700">About</a>
+        <input 
+          type="text" 
+          placeholder="Search..." 
+          className="border px-2 py-1 rounded"
+        />
+        <button  className="border px-4 py-1 rounded">Login</button>
+      </div>
+    </nav>
+  );
+};
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Name */}
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-sm">Your Name</label>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              className="w-full p-2 mt-2 border border-gray-300 rounded-md focus:outline-none dark:bg-slate-800 dark:text-white dark:border-slate-600"
-              {...register('name', { required: 'Name is required' })}
-            />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-          </div>
-
-          {/* Email */}
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm">Your Email</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full p-2 mt-2 border border-gray-300 rounded-md focus:outline-none dark:bg-slate-800 dark:text-white dark:border-slate-600"
-              {...register('email', { required: 'Email is required' })}
-            />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-          </div>
-
-          {/* Feedback */}
-          <div className="mb-4">
-            <label htmlFor="feedback" className="block text-sm">Your Feedback</label>
-            <textarea
-              placeholder="Share your thoughts or feedback"
-              className="w-full p-2 mt-2 border border-gray-300 rounded-md focus:outline-none dark:bg-slate-800 dark:text-white dark:border-slate-600"
-              rows="4"
-              {...register('feedback', { required: 'Feedback is required' })}
-            />
-            {errors.feedback && <p className="text-red-500 text-sm">{errors.feedback.message}</p>}
-          </div>
-
-          {/* Submit Button */}
-          <div className="text-center">
-            <button
-              type="submit"
-              className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-700 focus:outline-none duration-200"
-            >
-              Submit Feedback
-            </button>
-          </div>
-        </form>
+const HeroSection = () => {
+  return (
+    <div className="text-center py-12 bg-gray-100">
+      <h2 className="text-2xl font-semibold">Dedicated Teams for your dedicated dreams</h2>
+      <div className="mt-6 mx-auto w-3/4">
+        <img src="" alt="Team" className="mx-auto" />
       </div>
     </div>
   );
-}
+};
 
-export default AboutForm;
+const Section = ({ title, description }) => {
+  return (
+    <div className="p-6 bg-white shadow-md rounded-md text-center m-4">
+      <h3 className="text-xl font-bold">{title}</h3>
+      <p className="text-gray-600 mt-2">{description}</p>
+      <button className="mt-4 bg-pink-500 text-white px-4 py-2 rounded">View More</button>
+    </div>
+  );
+};
+
+const WhyItWorks = () => {
+  return (
+    <div className="text-center py-8 bg-gray-100">
+      <h3 className="text-xl font-bold">Why it Works</h3>
+      <div className="mt-6 flex flex-wrap justify-center gap-6">
+        <div className="bg-white p-4 shadow-md rounded w-60">Personalized learning</div>
+        <div className="bg-white p-4 shadow-md rounded w-60">Trusted content</div>
+        <div className="bg-white p-4 shadow-md rounded w-60">Tools to empower teachers</div>
+      </div>
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <div>
+      <Navbar />
+      <HeroSection />
+      <div className="flex flex-wrap justify-center mt-8">
+        <Section title="Developing Confident and Successful Learners" description="Lorem Ipsum is simply dummy text of the typesetting industry." />
+        <Section title="Enjoy Learning with a Unique Classroom Experience" description="Lorem Ipsum is simply dummy text of the typesetting industry." />
+        <Section title="Passionate Teachers That Make a Difference" description="Lorem Ipsum is simply dummy text of the typesetting industry." />
+      </div>
+      <WhyItWorks />
+    </div>
+  );
+};
+
+export default App;

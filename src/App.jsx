@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Courses from "./courses/Courses"; 
 import Signup from "./components/Signup";
 import ContactForm from "./components/Contact";
-import AboutForm from "./components/About";
+import AboutForm from "./components/About"; 
 function App() {
   return (
   <>
