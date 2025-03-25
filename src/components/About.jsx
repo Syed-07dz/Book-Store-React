@@ -1,32 +1,12 @@
 import React from "react";
-
-const Navbar = () => {
-  return (
-    <nav className="flex justify-between items-center p-4 bg-white shadow-md">
-      <h1 className="text-lg font-bold">Bookstore</h1>
-      <div className="flex items-center space-x-4">
-       
-        <a href="/" className="text-gray-700">Home</a>
-        <a href="/course" className="text-gray-700">Course</a>
-        <a href="/Contact" className="text-gray-700">Contact</a>
-        <a href="/About" className="text-gray-700">About</a>
-        <input 
-          type="text" 
-          placeholder="Search..." 
-          className="border px-2 py-1 rounded"
-        />
-        <button  className="border px-4 py-1 rounded">Login</button>
-      </div>
-    </nav>
-  );
-};
+import Navbar from "./Navbar"; // Ensure Navbar.js exists in the same directory
 
 const HeroSection = () => {
   return (
-    <div className="text-center py-12 bg-gray-100">
-      <h2 className="text-2xl font-semibold">Dedicated Teams for your dedicated dreams</h2>
+    <div className="text-center py-12 bg-gray-100 mt-5">
+      <h2 className="text-2xl font-semibold ">Dedicated Teams for your dedicated dreams</h2>
       <div className="mt-6 mx-auto w-3/4">
-        <img src="" alt="Team" className="mx-auto" />
+        <img src="https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books-illustration_23-2149341898.jpg?t=st=1738344239~exp=1738347839~hmac=16810b8d16f0b263f9076041f1a4b2046761abc663bb16e5dd1043a35216e557&w=740" alt="Team" className="" style={{height:"400px"}} />
       </div>
     </div>
   );
@@ -61,9 +41,18 @@ const App = () => {
       <Navbar />
       <HeroSection />
       <div className="flex flex-wrap justify-center mt-8">
-        <Section title="Developing Confident and Successful Learners" description="Lorem Ipsum is simply dummy text of the typesetting industry." />
-        <Section title="Enjoy Learning with a Unique Classroom Experience" description="Lorem Ipsum is simply dummy text of the typesetting industry." />
-        <Section title="Passionate Teachers That Make a Difference" description="Lorem Ipsum is simply dummy text of the typesetting industry." />
+        <Section
+          title="Developing Confident and Successful Learners"
+          description="Lorem Ipsum is simply dummy text of the typesetting industry."
+        />
+        <Section
+          title="Enjoy Learning with a Unique Classroom Experience"
+          description="Lorem Ipsum is simply dummy text of the typesetting industry."
+        />
+        <Section
+          title="Passionate Teachers That Make a Difference"
+          description="Lorem Ipsum is simply dummy text of the typesetting industry."
+        />
       </div>
       <WhyItWorks />
     </div>
