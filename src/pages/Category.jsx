@@ -23,9 +23,7 @@ const Category = () => {
           five the leap into electronic typesetting, remaining essentially
           unchanged.
         </p>
-        <button className="bg-pink-600 text-white px-4 py-2 rounded-md mt-4">
-          Back
-        </button>
+        
       </div>
 
       {/* Categories */}
