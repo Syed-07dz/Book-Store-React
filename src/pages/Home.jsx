@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const books = [
-  { id: 1, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
-  { id: 2, image: "/Banner.jpg", title: "Programming Book", description: "Lorem ipsum is simple dummy", price: "₹ 100" },
-  { id: 3, image: "/Banner.jpg", title: "Sport Book", description: "Lorem ipsum is simple dummy", price: "₹ 300" },
-  { id: 4, image: "/Banner.jpg", title: "Maths Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
-  { id: 5, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
-  { id: 6, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
+  { id: 1, image: "/Banner.jpg", title: "Gaming Book", description: "Gaming Character", price: "₹ 200" },
+  { id: 2, image: "/Banner.jpg", title: "Programming Book", description: "Python java", price: "₹ 300" },
+  { id: 3, image: "/Banner.jpg", title: "Sport Book", description: "How to Fit", price: "₹ 300" },
+  { id: 4, image: "/Banner.jpg", title: "Maths Book", description: "RD Sharma", price: "₹ 200" },
+  { id: 5, image: "/Banner.jpg", title: "Gaming Book", description: "How to Play", price: "₹ 200" },
+  { id: 6, image: "/Banner.jpg", title: "Coding Book", description: "JAVA HTML", price: "₹ 200" },
 ];
 
 const Home = () => {

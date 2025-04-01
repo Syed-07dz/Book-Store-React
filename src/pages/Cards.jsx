@@ -20,7 +20,7 @@ function Cards() {
 
       {/* Product Details */}
       <div className="flex-1">
-        <h2 className="text-lg font-semibold">Principles of Indian Geography</h2>
+        <h2 className="text-lg font-semibold">Gaming Book</h2>
         <p className="text-sm text-gray-500">Paperback, StudyIQ Publications</p>
         <p className="text-sm text-gray-500">Seller: StudyIQ</p>
 

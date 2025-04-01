@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const categories = [
   { title: "Study material" },
@@ -7,6 +7,26 @@ const categories = [
 ];
 
 const Category = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
+  const books = [
+    { id: 1, title: "Gaming Book", description: "Gaming Character", price: "₹ 200", image: "/Banner.jpg" },
+    { id: 2, title: "Programming Book", description: "Python JAVA", price: "₹ 350", image: "/Banner.jpg" },
+    { id: 3, title: "Maths Book", description: "RD Sharma", price: "₹ 300", image: "/Banner.jpg" },
+  ];
+
+  const handleBuyNowClick = (book) => {
+    setSelectedBook(book);
+    setShowPopup(true);
+  };
+
+  const handleOrderNowClick = () => {
+    setShowForm(true);
+    setShowPopup(false); // Close the book detail popup
+  };
+
   return (
     <div className="bg-pink-100 p-6">
       {/* Header Section */}
@@ -23,7 +43,6 @@ const Category = () => {
           five the leap into electronic typesetting, remaining essentially
           unchanged.
         </p>
-        
       </div>
 
       {/* Categories */}
@@ -38,25 +57,26 @@ const Category = () => {
 
           {/* Books Grid */}
           <div className="grid grid-cols-3 gap-6 mt-4">
-            {[1, 2, 3].map((_, idx) => (
+            {books.map((book) => (
               <div
-                key={idx}
+                key={book.id}
                 className="bg-gray-200 p-4 shadow-md rounded-lg text-center"
               >
                 <img
-                  src="/Banner.jpg"
-                  alt="Book Cover"
+                  src={book.image}
+                  alt={book.title}
                   className="w-50 h-50 object-cover rounded"
                 />
-                <h4 className="font-bold mt-2">Gaming Book</h4>
-                <p className="text-sm text-gray-500">
-                  Lorem ipsum is simple dummy
-                </p>
+                <h4 className="font-bold mt-2">{book.title}</h4>
+                <p className="text-sm text-gray-500">{book.description}</p>
                 <div className="flex justify-between items-center mt-3">
                   <span className="bg-gray-300 text-gray-800 px-2 py-1 rounded">
-                    ₹ 200
+                    {book.price}
                   </span>
-                  <button className="bg-pink-600 text-white px-3 py-1 rounded">
+                  <button
+                    onClick={() => handleBuyNowClick(book)}
+                    className="bg-pink-600 text-white px-3 py-1 rounded"
+                  >
                     Buy now
                   </button>
                 </div>
@@ -65,6 +85,65 @@ const Category = () => {
           </div>
         </div>
       ))}
+
+      {/* Book Detail Popup */}
+      {showPopup && selectedBook && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-center italic font-bold text-xl">{selectedBook.title}</h2>
+            <img
+              src={selectedBook.image}
+              alt={selectedBook.title}
+              className="w-full h-48 object-cover rounded-lg mt-4"
+            />
+            <p className="text-gray-600 mt-2">{selectedBook.description}</p>
+            <p className="text-gray-800 font-bold mt-2">Price: {selectedBook.price}</p>
+            <div className="text-center mt-4 flex justify-center gap-2">
+              <button
+                onClick={handleOrderNowClick}
+                className="bg-pink-600 text-white px-4 py-2 rounded-md"
+              >
+                Order Now
+              </button>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="bg-red-600 text-white px-4 py-2 rounded-md"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Order Form Popup */}
+      {showForm && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-center italic font-bold text-xl">Place Order</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <input type="text" placeholder="Your Name" className="border p-2 rounded-md" />
+              <input type="text" placeholder="Your Number" className="border p-2 rounded-md" />
+              <input type="email" placeholder="Your Email" className="border p-2 rounded-md col-span-1 sm:col-span-2" />
+              <input type="text" placeholder="Payment method" className="border p-2 rounded-md" />
+              <input type="text" placeholder="Your Address" className="border p-2 rounded-md col-span-1 sm:col-span-2" />
+              <input type="text" placeholder="City" className="border p-2 rounded-md" />
+              <input type="text" placeholder="State" className="border p-2 rounded-md" />
+            </div>
+            <div className="text-center mt-4 flex justify-center gap-2">
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-md">
+                Order Now
+              </button>
+              <button
+                onClick={() => setShowForm(false)}
+                className="bg-red-600 text-white px-4 py-2 rounded-md"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
