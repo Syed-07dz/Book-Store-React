@@ -9,7 +9,7 @@ import Login from "../pages/Login";  // Import Login Component
 import Signup from "../pages/Signup"
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
+import Forget from "../pages/Forget";
 function AppRoutes() {
   return (
     <>
@@ -22,6 +22,7 @@ function AppRoutes() {
         <Route path="/cards" element={<Cards />} />
         <Route path="/login" element={<Login />} /> {/* New Login Route */}
         <Route path="/Signup" element={<Signup />} /> {/* New Login Route */}
+        <Route path="/forgot-password" element={<Forget />} />
         
 
       </Routes>

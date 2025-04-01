@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const books = [
   { id: 1, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
-  { id: 2, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
-  { id: 3, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
-  { id: 4, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
+  { id: 2, image: "/Banner.jpg", title: "Programming Book", description: "Lorem ipsum is simple dummy", price: "₹ 100" },
+  { id: 3, image: "/Banner.jpg", title: "Sport Book", description: "Lorem ipsum is simple dummy", price: "₹ 300" },
+  { id: 4, image: "/Banner.jpg", title: "Maths Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
   { id: 5, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
   { id: 6, image: "/Banner.jpg", title: "Gaming Book", description: "Lorem ipsum is simple dummy", price: "₹ 200" },
 ];
 
 const Home = () => {
   const [showForm, setShowForm] = useState(false);
-
+  const [selectedBook, setSelectedBook] = useState(null);
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-100 p-6">
       {/* Header Section */}
@@ -34,14 +36,7 @@ const Home = () => {
             Get started
           </button>
         </div>
-      </div>
 
-      {/* Course Offer Section */}
-      <div className="text-center mt-8">
-        <h3 className="italic font-semibold text-gray-700">Free offered Course</h3>
-        <p className="text-gray-600">
-          It is a long established fact that a reader will be distracted by the readable content.
-        </p>
       </div>
 
       {/* Book Grid */}
@@ -51,7 +46,8 @@ const Home = () => {
             <img 
               src={book.image} 
               alt={book.title} 
-              className="w-full h-48 object-cover rounded-lg" 
+              className="w-full h-48 object-cover rounded-lg cursor-pointer" 
+              onClick={() => setSelectedBook(book)}
             />
             <h4 className="font-bold mt-2">{book.title}</h4>
             <p className="text-sm text-gray-500">{book.description}</p>
@@ -68,6 +64,26 @@ const Home = () => {
         ))}
       </div>
 
+      {/* Book Detail Popup */}
+      {selectedBook && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-center italic font-bold text-xl">{selectedBook.title}</h2>
+            <img 
+              src={selectedBook.image} 
+              alt={selectedBook.title} 
+              className="w-full h-48 object-cover rounded-lg mt-4" 
+            />
+            <p className="text-gray-600 mt-2">{selectedBook.description}</p>
+            <p className="text-gray-800 font-bold mt-2">Price: {selectedBook.price}</p>
+            <div className="text-center mt-4 flex justify-center gap-2">
+              <button className="bg-pink-600 text-white px-4 py-2 rounded-md" onClick={() => { setShowForm(true); setSelectedBook(null); }}>Buy Now</button>
+              <button onClick={() => setSelectedBook(null)} className="bg-red-600 text-white px-4 py-2 rounded-md">Close</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Order Form Popup */}
       {showForm && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 p-4">
@@ -83,10 +99,8 @@ const Home = () => {
               <input type="text" placeholder="State" className="border p-2 rounded-md" />
             </div>
             <div className="text-center mt-4 flex justify-center gap-2">
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-md">Order Now</button>
-              <button onClick={() => setShowForm(false)} className="bg-red-600 text-white px-4 py-2 rounded-md">
-                Cancel
-              </button>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-md" onClick={() => navigate("/cards")}>Order Now</button>
+              <button onClick={() => setShowForm(false)} className="bg-red-600 text-white px-4 py-2 rounded-md">Cancel</button>
             </div>
           </div>
         </div>

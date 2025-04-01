@@ -4,7 +4,7 @@ const About = () => {
   return (
     <div className="text-center py-12 bg-gray-100 mt-5">
       <h2 className="text-2xl font-semibold">About Us</h2>
-      <p className="mt-4 text-gray-600 w-3/4 mx-auto">
+      <p className="mt-4 text-gray-800 w-3/4 mx-auto">
         We are dedicated to providing high-quality educational resources and learning experiences.
         Our mission is to make education accessible and engaging for all learners.
       </p>
