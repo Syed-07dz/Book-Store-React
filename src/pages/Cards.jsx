@@ -26,7 +26,7 @@ function Cards() {
 
         {/* Price & Discount */}
         <div className="flex items-center space-x-2 mt-2">
-          <span className="text-lg font-bold">Rs 699</span>
+          <span className="text-lg font-bold">Rs 200</span>
           <span className="text-green-600 text-sm font-semibold">37% off</span>
         </div>
 
@@ -37,7 +37,7 @@ function Cards() {
       </div>
 
       {/* Delivery Info */}
-      <div className="text-sm text-gray-600 font-medium">Delivery in 2 days</div>
+      <div className="text-sm text-gray-600 font-medium">Delivery in few days</div>
 
       {/* Quantity Controls */}
       <div className="flex items-center space-x-2 border px-2 py-1 rounded-md">
