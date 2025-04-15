@@ -35,7 +35,7 @@ const Navbar = () => {
             Login
           </button>
           <button
-            className=" bg-black text-white  px-4 py-1 rounded-md italic hover:bg-gray-800 mt-1"
+            className=" bg-black text-white  px-4 py-1 rounded-md italic hover:bg-gray-800 "
             onClick={() => navigate("/Profile")}
           >
             Profile

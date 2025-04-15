@@ -6,7 +6,9 @@ function Profile() {
     email: "john@example.com",
   });
 
-  const [orders, setOrders] = useState([
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+
+  const [orders] = useState([
     { id: 1, item: "story book", status: "Processing" },
     { id: 2, item: "sport book", status: "Delivered" },
   ]);
@@ -17,15 +19,8 @@ function Profile() {
   };
 
   const handleProfileSave = () => {
+    setIsEditingProfile(false);
     alert("Profile saved!");
-  };
-
-  const handleOrderStatusChange = (id, value) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === id ? { ...order, status: value } : order
-      )
-    );
   };
 
   return (
@@ -42,7 +37,8 @@ function Profile() {
               name="name"
               value={profile.name}
               onChange={handleProfileChange}
-              className="w-full border p-2 rounded-md"
+              disabled={!isEditingProfile}
+              className={`w-full border p-2 rounded-md ${!isEditingProfile ? "bg-gray-100 cursor-not-allowed" : ""}`}
               placeholder="Name"
             />
             <input
@@ -50,15 +46,26 @@ function Profile() {
               name="email"
               value={profile.email}
               onChange={handleProfileChange}
-              className="w-full border p-2 rounded-md"
+              disabled={!isEditingProfile}
+              className={`w-full border p-2 rounded-md ${!isEditingProfile ? "bg-gray-100 cursor-not-allowed" : ""}`}
               placeholder="Email"
             />
-            <button
-              onClick={handleProfileSave}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-            >
-              Save Profile
-            </button>
+
+            {isEditingProfile ? (
+              <button
+                onClick={handleProfileSave}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+              >
+                Save Profile
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsEditingProfile(true)}
+                className="bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-800"
+              >
+                Edit Profile
+              </button>
+            )}
           </div>
         </section>
 
@@ -75,17 +82,9 @@ function Profile() {
                   <p className="font-medium">{order.item}</p>
                   <p className="text-sm text-gray-600">Order ID: {order.id}</p>
                 </div>
-                <select
-                  value={order.status}
-                  onChange={(e) =>
-                    handleOrderStatusChange(order.id, e.target.value)
-                  }
-                  className="border p-2 rounded-md"
-                >
-                  <option value="Processing">Processing</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Delivered">Delivered</option>
-                </select>
+                <span className="text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-800">
+                  {order.status}
+                </span>
               </div>
             ))}
           </div>
