@@ -11,6 +11,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Forget from "../pages/Forget";
 import Profile from "../components/Profile";
+import AdminPage from "../pages/Adminpage";
 function AppRoutes() {
   return (
     <>
@@ -25,6 +26,8 @@ function AppRoutes() {
         <Route path="/Signup" element={<Signup />} /> {/* New Signup Route */}
         <Route path="/forgot-password" element={<Forget />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/Adminpage" element={<AdminPage />} /> 
+
 
         
 
