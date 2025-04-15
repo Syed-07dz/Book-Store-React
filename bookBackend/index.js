@@ -1,32 +1,20 @@
 // server.js
-const express = require("express");
-const pool = require("./dbconn");
-require("dotenv").config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const userRoutes = require('./routes/userRoute');
 
 const app = express();
-app.use(express.json());
+const PORT = 3000;
 
-// Route to insert user into 'user' table
-app.post("/users", async (req, res) => {
-  const { f_name, l_name, email, password } = req.body;
+app.use(bodyParser.json());
 
-  try {
-    const result = await pool.query(
-        'INSERT INTO "User" ("F_name", "L_name", "Email", "Password") VALUES ($1, $2, $3, $4) RETURNING *',
-        [f_name, l_name, email, password]
-      );
+// User routes (base path = /users)
+app.use('/users', userRoutes);
 
-    res.status(201).json({
-      message: "User created successfully",
-      user: result.rows[0],
-    });
-  } catch (err) {
-    console.error("Insert user error:", err.message);
-    res.status(500).json({ error: "Failed to create user" });
-  }
+app.get('/', (req, res) => {
+  res.send('Welcome to the User API');
 });
 
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
