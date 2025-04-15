@@ -10,6 +10,7 @@ import Signup from "../pages/Signup"
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Forget from "../pages/Forget";
+import Profile from "../components/Profile";
 function AppRoutes() {
   return (
     <>
@@ -21,8 +22,10 @@ function AppRoutes() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/cards" element={<Cards />} />
         <Route path="/login" element={<Login />} /> {/* New Login Route */}
-        <Route path="/Signup" element={<Signup />} /> {/* New Login Route */}
+        <Route path="/Signup" element={<Signup />} /> {/* New Signup Route */}
         <Route path="/forgot-password" element={<Forget />} />
+        <Route path="/profile" element={<Profile />} />
+
         
 
       </Routes>

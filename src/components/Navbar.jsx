@@ -18,7 +18,7 @@ const Navbar = () => {
           <li><a href="/category" className="hover:underline">Category</a></li>
           <li><a href="/contact" className="hover:underline">Contact</a></li>
           <li><a href="/about" className="hover:underline">About</a></li>
-          <li><a href="/cards" className="hover:underline">Cards</a></li>
+          <li><a href="/cards" className="hover:underline">Cart</a></li>
         </ul>
 
         {/* Search + Login (Desktop) */}
@@ -33,6 +33,12 @@ const Navbar = () => {
             onClick={() => navigate("/login")}
           >
             Login
+          </button>
+          <button
+            className=" bg-black text-white  px-4 py-1 rounded-md italic hover:bg-gray-800 mt-1"
+            onClick={() => navigate("/Profile")}
+          >
+            Profile
           </button>
         </div>
 
@@ -65,6 +71,12 @@ const Navbar = () => {
             onClick={() => navigate("/login")}
           >
             Login
+          </button>
+          <button
+            className="w-full bg-black text-white py-2 rounded-md italic hover:bg-gray-800 mt-3"
+            onClick={() => navigate("/Profile")}
+          >
+            Profile
           </button>
         </div>
       )}
