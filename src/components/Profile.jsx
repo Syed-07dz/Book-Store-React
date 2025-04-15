@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 function Profile() {
@@ -17,7 +16,11 @@ function Profile() {
     setProfile({ ...profile, [name]: value });
   };
 
-  const handleOrderChange = (id, value) => {
+  const handleProfileSave = () => {
+    alert("Profile saved!");
+  };
+
+  const handleOrderStatusChange = (id, value) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order.id === id ? { ...order, status: value } : order
@@ -50,6 +53,12 @@ function Profile() {
               className="w-full border p-2 rounded-md"
               placeholder="Email"
             />
+            <button
+              onClick={handleProfileSave}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            >
+              Save Profile
+            </button>
           </div>
         </section>
 
@@ -60,7 +69,7 @@ function Profile() {
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="flex items-center justify-between border p-3 rounded-md bg-gray-50"
+                className="flex flex-col sm:flex-row sm:items-center justify-between border p-3 rounded-md bg-gray-50 gap-3"
               >
                 <div>
                   <p className="font-medium">{order.item}</p>
@@ -68,7 +77,9 @@ function Profile() {
                 </div>
                 <select
                   value={order.status}
-                  onChange={(e) => handleOrderChange(order.id, e.target.value)}
+                  onChange={(e) =>
+                    handleOrderStatusChange(order.id, e.target.value)
+                  }
                   className="border p-2 rounded-md"
                 >
                   <option value="Processing">Processing</option>
