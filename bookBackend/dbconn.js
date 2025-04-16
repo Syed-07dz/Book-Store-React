@@ -4,7 +4,6 @@ DB_USER='postgres'
 DB_PASSWORD='5432'
 DB_NAME='BookStore'
 
-// db.js
 const { Pool } = require("pg");
 require("dotenv").config();
 

@@ -1,17 +1,12 @@
-// routes/userRoutes.js
+// routes/userRoute.js
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/userController');
 
-// Create a new user
 router.post('/signup', userController.createUser);
-
-// Get all users
+router.post('/login', userController.loginUser);
+router.get('/me', userController.getProfile);       // ✅ Must be BEFORE /:id
 router.get('/', userController.getAllUsers);
-
-// Get user by ID
 router.get('/:id', userController.getUserById);
 
-// 👇 Login Route
-router.post('/login', userController.loginUser);
 module.exports = router;
