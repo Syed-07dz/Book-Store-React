@@ -38,7 +38,7 @@ function AdminAddProduct() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-xl mx-auto bg-white p-6 rounded-2xl shadow-md">
-        <h1 className="text-3xl font-bold mb-6 text-center">Add New Product</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Add New Products</h1>
         {message && (
           <div className="mb-4 text-center text-sm font-medium text-green-600">
             {message}
