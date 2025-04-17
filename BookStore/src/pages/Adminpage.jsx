@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function AdminPage() {
-  const [orders, setOrders] = useState([
-    { id: 1, item: "story book", status: "Processing", isEditing: false },
-    { id: 2, item: "sport book", status: "Delivered", isEditing: false },
-  ]);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [newBook, setNewBook] = useState({ item: "", status: "Processing" });
+  // Fetch orders from the backend
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('http://localhost:3000/orders');
+      setOrders(response.data.map(order => ({
+        ...order,
+        isEditing: false
+      })));
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+      setError('Failed to load orders. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   const handleOrderEditToggle = (id) => {
     setOrders((prevOrders) =>
@@ -16,134 +36,121 @@ function AdminPage() {
     );
   };
 
-  const handleOrderChange = (id, field, value) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === id ? { ...order, [field]: value } : order
-      )
-    );
+  const handleOrderChange = async (id, field, value) => {
+    try {
+      if (field === 'status') {
+        // Update order status in the backend
+        await axios.put(`http://localhost:3000/orders/${id}`, { status: value });
+        
+        // Update local state
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === id ? { ...order, [field]: value } : order
+          )
+        );
+      }
+    } catch (err) {
+      console.error('Error updating order:', err);
+      alert('Failed to update order status. Please try again.');
+    }
   };
 
-  const handleOrderDelete = (id) => {
-    setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
-  };
-
-  const handleNewBookChange = (e) => {
-    const { name, value } = e.target;
-    setNewBook({ ...newBook, [name]: value });
-  };
-
-  const handleAddNewBook = () => {
-    if (!newBook.item.trim()) {
-      alert("Book name cannot be empty.");
+  const handleOrderDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this order?')) {
       return;
     }
-    const newOrder = {
-      id: Date.now(),
-      item: newBook.item,
-      status: newBook.status,
-      isEditing: false,
-    };
-    setOrders([...orders, newOrder]);
-    setNewBook({ item: "", status: "Processing" });
+
+    try {
+      const response = await axios.delete(`http://localhost:3000/orders/${id}`);
+      if (response.data.success) {
+        setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
+        alert('Order deleted successfully');
+      } else {
+        alert('Failed to delete order: ' + response.data.message);
+      }
+    } catch (err) {
+      console.error('Error deleting order:', err);
+      alert('Failed to delete order. Please try again.');
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 p-8 flex items-center justify-center">
+        <div className="text-xl font-semibold text-gray-600">Loading orders...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-100 p-8 flex items-center justify-center">
+        <div className="text-xl font-semibold text-red-600">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow-md">
         <h1 className="text-3xl font-bold mb-6 text-center">Admin Dashboard</h1>
 
-        {/* Add New Book */}
-        <section className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Add New Book</h2>
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
-            <input
-              type="text"
-              name="item"
-              value={newBook.item}
-              onChange={handleNewBookChange}
-              placeholder="Book Name"
-              className="border p-2 rounded-md w-full sm:w-1/2"
-            />
-            <select
-              name="status"
-              value={newBook.status}
-              onChange={handleNewBookChange}
-              className="border p-2 rounded-md"
-            >
-              <option value="Processing">Processing</option>
-              <option value="Shipped">Shipped</option>
-              <option value="Delivered">Delivered</option>
-            </select>
-            <button
-              onClick={handleAddNewBook}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-            >
-              Add Book
-            </button>
-          </div>
-        </section>
-
         {/* Manage Orders */}
         <section>
-          <h2 className="text-xl font-semibold mb-4">Manage Orders</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Manage Orders</h2>
+            <button 
+              onClick={fetchOrders}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            >
+              Refresh Orders
+            </button>
+          </div>
+          
           <div className="space-y-4">
-            {orders.map((order) => (
-              <div
-                key={order.id}
-                className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border p-4 rounded-lg bg-gray-50"
-              >
-                <div className="flex-1">
-                  {order.isEditing ? (
-                    <input
-                      type="text"
-                      value={order.item}
-                      onChange={(e) =>
-                        handleOrderChange(order.id, "item", e.target.value)
-                      }
-                      className="border p-2 rounded-md w-full"
-                    />
-                  ) : (
-                    <p className="font-medium text-lg">{order.item}</p>
-                  )}
-                  <p className="text-sm text-gray-500">Order ID: {order.id}</p>
-                </div>
+            {orders.length === 0 ? (
+              <p className="text-center text-gray-500 py-4">No orders found</p>
+            ) : (
+              orders.map((order) => (
+                <div
+                  key={order.id}
+                  className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border p-4 rounded-lg bg-gray-50"
+                >
+                  <div className="flex-1">
+                    <div className="font-medium text-lg mb-2">
+                      Order #{order.id}
+                    </div>
+                    <div className="text-sm text-gray-600 space-y-1">
+                      <p>Items: {order.items.length} products</p>
+                      <p>Total Amount: ₹{order.total_amount}</p>
+                      <p>Customer: {order.customer_details.name}</p>
+                      <p>Date: {new Date(order.order_date).toLocaleDateString()}</p>
+                    </div>
+                  </div>
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                  {order.isEditing ? (
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                     <select
                       value={order.status}
-                      onChange={(e) =>
-                        handleOrderChange(order.id, "status", e.target.value)
-                      }
-                      className="border p-2 rounded-md"
+                      onChange={(e) => handleOrderChange(order.id, "status", e.target.value)}
+                      className="border p-2 rounded-md bg-white"
                     >
-                      <option value="Processing">Processing</option>
-                      <option value="Shipped">Shipped</option>
-                      <option value="Delivered">Delivered</option>
+                      <option value="pending">Pending</option>
+                      <option value="processing">Processing</option>
+                      <option value="shipped">Shipped</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="cancelled">Cancelled</option>
                     </select>
-                  ) : (
-                    <span className="text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-800">
-                      {order.status}
-                    </span>
-                  )}
 
-                  <button
-                    onClick={() => handleOrderEditToggle(order.id)}
-                    className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700"
-                  >
-                    {order.isEditing ? "Save" : "Edit"}
-                  </button>
-
-                  <button
-                    onClick={() => handleOrderDelete(order.id)}
-                    className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700"
-                  >
-                    Delete
-                  </button>
+                    <button
+                      onClick={() => handleOrderDelete(order.id)}
+                      className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
       </div>

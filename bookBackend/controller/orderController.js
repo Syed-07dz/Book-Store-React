@@ -75,9 +75,27 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+// Delete order
+const deleteOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const result = await orderModel.deleteOrder(orderId);
+    
+    if (result.success) {
+      res.status(200).json({ success: true, message: 'Order deleted successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Order not found' });
+    }
+  } catch (err) {
+    console.error('Error deleting order:', err);
+    res.status(500).json({ error: 'Failed to delete order' });
+  }
+};
+
 module.exports = {
   createOrder,
   getUserOrders,
   getAllOrders,
-  updateOrderStatus
+  updateOrderStatus,
+  deleteOrder
 }; 

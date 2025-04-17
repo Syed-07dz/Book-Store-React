@@ -83,6 +83,22 @@ const orderModel = {
       console.error('Error in updateOrderStatus:', err);
       throw err;
     }
+  },
+
+  // Delete order
+  deleteOrder: async (orderId) => {
+    const sql = 'DELETE FROM orders WHERE id = $1 RETURNING *';
+    try {
+      const result = await pool.query(sql, [orderId]);
+      if (result.rows && result.rows.length > 0) {
+        return { success: true, deletedOrder: result.rows[0] };
+      } else {
+        return { success: false };
+      }
+    } catch (err) {
+      console.error('Error in deleteOrder:', err);
+      throw err;
+    }
   }
 };
 

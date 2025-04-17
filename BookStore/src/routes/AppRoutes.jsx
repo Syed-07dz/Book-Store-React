@@ -29,7 +29,7 @@ function AppRoutes() {
         <Route path="/forgot-password" element={<Forget />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/Adminpage" element={<AdminPage />} /> 
-        <Route path="/Adminusers" element={<AdminUsersPage />} /> 
+        <Route path="/AdminUsersPage" element={<AdminUsersPage />} /> 
         <Route path="/Adminadd" element={<AdminAddProduct />} /> 
         
 
