@@ -12,6 +12,8 @@ import Footer from "../components/Footer";
 import Forget from "../pages/Forget";
 import Profile from "../components/Profile";
 import AdminPage from "../pages/Adminpage";
+import AdminUsersPage from "../pages/AdminUsersPage";
+import AdminAddProduct from "../pages/AdminAddProduct"
 function AppRoutes() {
   return (
     <>
@@ -27,6 +29,10 @@ function AppRoutes() {
         <Route path="/forgot-password" element={<Forget />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/Adminpage" element={<AdminPage />} /> 
+        <Route path="/Adminusers" element={<AdminUsersPage />} /> 
+        <Route path="/Adminadd" element={<AdminAddProduct />} /> 
+        
+
 
 
         

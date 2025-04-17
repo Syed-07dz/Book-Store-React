@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function Profile() {
-  const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "john@example.com",
-  });
-
+  const [profile, setProfile] = useState(null);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   const [orders] = useState([
@@ -13,15 +10,44 @@ function Profile() {
     { id: 2, item: "sport book", status: "Delivered" },
   ]);
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/users/me", {
+          withCredentials: true,
+        });
+        console.log("Fetched profile:", res.data);
+  
+        setProfile({
+          name: `${res.data.f_name} ${res.data.l_name}`,
+          email: res.data.email,
+        });
+      } catch (err) {
+        console.error("Failed to fetch profile", err.response?.data || err.message);
+      }
+    };
+  
+    fetchProfile();
+  }, []);
+
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
-    setProfile({ ...profile, [name]: value });
+    setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleProfileSave = () => {
-    setIsEditingProfile(false);
-    alert("Profile saved!");
+  const handleProfileSave = async () => {
+    try {
+      // Optionally send updated profile data to backend
+      // await axios.put("http://localhost:3000/users/me", profile, { withCredentials: true });
+
+      setIsEditingProfile(false);
+      alert("Profile saved!");
+    } catch (error) {
+      console.error("Failed to save profile", error);
+    }
   };
+
+  if (!profile) return <div className="p-8">Loading...</div>;
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -34,12 +60,25 @@ function Profile() {
           <div className="space-y-4">
             <input
               type="text"
-              name="name"
-              value={profile.name}
+              name="f_name"
+              value={profile.f_name}
               onChange={handleProfileChange}
               disabled={!isEditingProfile}
-              className={`w-full border p-2 rounded-md ${!isEditingProfile ? "bg-gray-100 cursor-not-allowed" : ""}`}
-              placeholder="Name"
+              className={`w-full border p-2 rounded-md ${
+                !isEditingProfile ? "bg-gray-100 cursor-not-allowed" : ""
+              }`}
+              placeholder="First Name"
+            />
+            <input
+              type="text"
+              name="l_name"
+              value={profile.l_name}
+              onChange={handleProfileChange}
+              disabled={!isEditingProfile}
+              className={`w-full border p-2 rounded-md ${
+                !isEditingProfile ? "bg-gray-100 cursor-not-allowed" : ""
+              }`}
+              placeholder="Last Name"
             />
             <input
               type="email"
@@ -47,7 +86,9 @@ function Profile() {
               value={profile.email}
               onChange={handleProfileChange}
               disabled={!isEditingProfile}
-              className={`w-full border p-2 rounded-md ${!isEditingProfile ? "bg-gray-100 cursor-not-allowed" : ""}`}
+              className={`w-full border p-2 rounded-md ${
+                !isEditingProfile ? "bg-gray-100 cursor-not-allowed" : ""
+              }`}
               placeholder="Email"
             />
 
