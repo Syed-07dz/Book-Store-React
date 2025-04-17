@@ -67,7 +67,7 @@ const Footer = () => {
             <h3 className="font-semibold">Trusted Content</h3>
             <p className="text-gray-400">
               Created by experts, our library covers math, science, and more. 
-              Always free for learners and teachers.
+             
             </p>
           </div>
           <div>
