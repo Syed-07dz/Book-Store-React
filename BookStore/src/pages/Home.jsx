@@ -1,19 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const books = [
-  { id: 1, image: "/Banner.jpg", title: "Gaming Book", description: "Gaming Character", price: "₹ 200" },
-  { id: 2, image: "/Banner.jpg", title: "Programming Book", description: "Python java", price: "₹ 300" },
-  { id: 3, image: "/Banner.jpg", title: "Sport Book", description: "How to Fit", price: "₹ 300" },
-  { id: 4, image: "/Banner.jpg", title: "Maths Book", description: "RD Sharma", price: "₹ 200" },
-  { id: 5, image: "/Banner.jpg", title: "Gaming Book", description: "How to Play", price: "₹ 200" },
-  { id: 6, image: "/Banner.jpg", title: "Coding Book", description: "JAVA HTML", price: "₹ 200" },
+  { id: 1, image: "/Banner.jpg", title: "Gaming Book", description: "Gaming Character", price: 200 },
+  { id: 2, image: "/Banner.jpg", title: "Programming Book", description: "Python java", price: 300 },
+  { id: 3, image: "/Banner.jpg", title: "Sport Book", description: "How to Fit", price: 300 },
+  { id: 4, image: "/Banner.jpg", title: "Maths Book", description: "RD Sharma", price: 200 },
+  { id: 5, image: "/Banner.jpg", title: "Gaming Book", description: "How to Play", price: 200 },
+  { id: 6, image: "/Banner.jpg", title: "Coding Book", description: "JAVA HTML", price: 200 },
 ];
 
 const Home = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  const handleBuyNow = (book) => {
+    addToCart({
+      id: book.id,
+      name: book.title,
+      description: book.description,
+      price: book.price,
+      image: book.image
+    });
+    navigate('/cards');
+  };
+
   return (
     <div className="bg-gray-100 p-6">
       {/* Header Section */}
@@ -52,12 +66,12 @@ const Home = () => {
             <h4 className="font-bold mt-2">{book.title}</h4>
             <p className="text-sm text-gray-500">{book.description}</p>
             <div className="flex justify-between items-center mt-3">
-              <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded">{book.price}</span>
+              <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded">₹{book.price}</span>
               <button 
-                onClick={() => setShowForm(true)} 
+                onClick={() => handleBuyNow(book)} 
                 className="bg-pink-600 text-white px-3 py-1 rounded"
               >
-                Buy now
+                Add to Cart
               </button>
             </div>
           </div>
@@ -75,9 +89,17 @@ const Home = () => {
               className="w-full h-48 object-cover rounded-lg mt-4" 
             />
             <p className="text-gray-600 mt-2">{selectedBook.description}</p>
-            <p className="text-gray-800 font-bold mt-2">Price: {selectedBook.price}</p>
+            <p className="text-gray-800 font-bold mt-2">Price: ₹{selectedBook.price}</p>
             <div className="text-center mt-4 flex justify-center gap-2">
-              <button className="bg-pink-600 text-white px-4 py-2 rounded-md" onClick={() => { setShowForm(true); setSelectedBook(null); }}>Buy Now</button>
+              <button 
+                className="bg-pink-600 text-white px-4 py-2 rounded-md" 
+                onClick={() => { 
+                  handleBuyNow(selectedBook);
+                  setSelectedBook(null);
+                }}
+              >
+                Add to Cart
+              </button>
               <button onClick={() => setSelectedBook(null)} className="bg-red-600 text-white px-4 py-2 rounded-md">Close</button>
             </div>
           </div>

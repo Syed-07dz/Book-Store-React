@@ -24,11 +24,21 @@ const Login = () => {
       const res = await axios.post("http://localhost:3000/users/login", {
         email: formData.email,
         password: formData.password,
+      }, {
+        withCredentials: true // Important for cookies
       });
 
-      console.log("Login successful:", res.data);
-      alert("Login successful!");
-      navigate("/");
+      if (res.data) {
+        // Store login state in localStorage
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        
+        console.log("Login successful:", res.data);
+        alert("Login successful!");
+        navigate("/");
+        // Force reload to update navbar
+        window.location.reload();
+      }
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
       alert("Invalid email or password");
@@ -61,12 +71,14 @@ const Login = () => {
             placeholder="Enter email or phone number"
             className="w-full border p-2 rounded-md mb-4"
             onChange={handleChange}
+            value={formData.email}
           />
           <input
             type="password"
             placeholder="Password"
             className="w-full border p-2 rounded-md mb-4"
             onChange={handleChange}
+            value={formData.password}
           />
 
           <div

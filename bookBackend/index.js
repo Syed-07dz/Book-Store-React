@@ -1,8 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const userRoutes = require('./routes/userRoute');
-const productRoutes = require('./routes/productRoute')
+const productRoutes = require('./routes/productRoute');
+const paymentRoutes = require('./routes/paymentRoute');
+const orderRoutes = require('./routes/orderRoute');
 
 const app = express();
 const PORT = 3000;
@@ -26,13 +29,26 @@ app.use(
   })
 );
 
+// Environment variables check
+if (!process.env.STRIPE_SECRET_KEY) {
+  console.error('Missing STRIPE_SECRET_KEY environment variable');
+  process.exit(1);
+}
+
+if (!process.env.CLIENT_URL) {
+  console.warn('CLIENT_URL not set, defaulting to http://localhost:5173');
+  process.env.CLIENT_URL = 'http://localhost:5173';
+}
+
 // Routes
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
+app.use('/payment', paymentRoutes);
+app.use('/orders', orderRoutes);
 
 // Root route
 app.get('/', (req, res) => {
-  res.send('Welcome to the User API');
+  res.send('Welcome to the Bookstore API');
 });
 
 app.listen(PORT, () => {

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const Category = () => {
   const [products, setProducts] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch products from the backend API
@@ -23,16 +27,18 @@ const Category = () => {
     setShowPopup(true);
   };
 
-  const handleOrderNowClick = () => {
-    setShowForm(true);
+  const handleOrderNowClick = (book) => {
+    addToCart(book);
+    setShowForm(false);
     setShowPopup(false);
+    navigate('/cards');
   };
 
   return (
     <div className="bg-pink-100 p-6 min-h-screen">
       <div className="text-center p-6">
         <h2 className="italic text-gray-800 text-4xl sm:text-6xl font-bold">
-          We’re delighted to have you <span className="text-pink-600">Here! :)</span>
+          We're delighted to have you <span className="text-pink-600">Here! :)</span>
         </h2>
         <p className="text-gray-600 mx-auto mt-2 text-lg sm:text-2xl w-full max-w-3xl">
           Explore our collection of books across various categories.
@@ -69,7 +75,7 @@ const Category = () => {
             <p className="text-gray-600 mt-2">{selectedBook.description}</p>
             <p className="text-gray-800 font-bold mt-2">Price: ₹ {selectedBook.price}</p>
             <div className="text-center mt-4 flex justify-center gap-2">
-              <button onClick={handleOrderNowClick} className="bg-pink-600 text-white px-4 py-2 rounded-md">Order Now</button>
+              <button onClick={() => handleOrderNowClick(selectedBook)} className="bg-pink-600 text-white px-4 py-2 rounded-md">Add to Cart</button>
               <button onClick={() => setShowPopup(false)} className="bg-red-600 text-white px-4 py-2 rounded-md">Close</button>
             </div>
           </div>

@@ -44,17 +44,44 @@ const loginUser = async (req, res) => {
     const user = await userModel.loginUser(email, password);
     if (!user) return res.status(401).json({ message: 'Invalid email or password' });
 
+    // Create session
     req.session.user = {
       id: user.id,
       f_name: user.f_name,
       l_name: user.l_name,
       email: user.email,
     };
-    console.log(user.id)
-    res.status(200).json({ message: 'Login successful', user: req.session.user });
+
+    // Send user data in response
+    res.status(200).json({
+      message: 'Login successful',
+      user: {
+        id: user.id,
+        f_name: user.f_name,
+        l_name: user.l_name,
+        email: user.email
+      }
+    });
   } catch (err) {
-  
     console.error('Login error:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// Logout user
+const logoutUser = async (req, res) => {
+  try {
+    // Destroy the session
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+        return res.status(500).json({ error: 'Error logging out' });
+      }
+      res.clearCookie('connect.sid'); // Clear session cookie
+      res.status(200).json({ message: 'Logged out successfully' });
+    });
+  } catch (err) {
+    console.error('Logout error:', err.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -76,11 +103,11 @@ const getProfile = async (req, res) => {
   }
 };
 
-
 module.exports = {
   getProfile,
   createUser,
   getAllUsers,
   getUserById,
-  loginUser
+  loginUser,
+  logoutUser
 };
