@@ -2,42 +2,6 @@ const pool = require('../dbconn');
 
 console.log('Initializing order model...');
 
-// Create order table if it doesn't exist
-const createOrderTable = async () => {
-  console.log('Attempting to create orders table...');
-  
-  // Use a simpler query to create the table
-  const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS orders (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER NULL,
-      items JSONB NOT NULL,
-      total_amount DECIMAL(10,2) NOT NULL,
-      customer_details JSONB NOT NULL,
-      status VARCHAR(50) NOT NULL,
-      order_date TIMESTAMP NOT NULL
-    )
-  `;
-  
-  try {
-    console.log('Executing table creation query...');
-    await pool.query(createTableQuery);
-    console.log('✅ Orders table created or already exists');
-  } catch (err) {
-    console.error('❌ Error creating orders table:', err);
-    console.error('Error details:', {
-      code: err.code,
-      message: err.message,
-      detail: err.detail || 'No additional details'
-    });
-  }
-};
-
-// Create the table immediately
-createOrderTable()
-  .then(() => console.log('Table initialization complete'))
-  .catch(err => console.error('Failed to initialize orders table:', err));
-
 const orderModel = {
   // Create new order
   createOrder: async (orderData) => {
