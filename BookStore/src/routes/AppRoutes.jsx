@@ -14,6 +14,7 @@ import Profile from "../components/Profile";
 import AdminPage from "../pages/Adminpage";
 import AdminUsersPage from "../pages/AdminUsersPage";
 import AdminAddProduct from "../pages/AdminAddProduct"
+import AdminDashboard from "../pages/AdminDashboard";
 function AppRoutes() {
   return (
     <>
@@ -31,6 +32,7 @@ function AppRoutes() {
         <Route path="/Adminpage" element={<AdminPage />} /> 
         <Route path="/AdminUsersPage" element={<AdminUsersPage />} /> 
         <Route path="/Adminadd" element={<AdminAddProduct />} /> 
+        <Route path="/Admindashboard" element={<AdminDashboard/>} /> 
         
 
 

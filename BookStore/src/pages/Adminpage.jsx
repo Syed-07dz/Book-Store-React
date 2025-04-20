@@ -129,17 +129,37 @@ function AdminPage() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                    <select
-                      value={order.status}
-                      onChange={(e) => handleOrderChange(order.id, "status", e.target.value)}
-                      className="border p-2 rounded-md bg-white"
+                    {order.isEditing ? (
+                      <input
+                        type="text"
+                        value={order.status}
+                        onChange={(e) =>
+                          handleOrderChange(order.id, "status", e.target.value)
+                        }
+                        className="border p-2 rounded-md"
+                      />
+                    ) : (
+                      <select
+                        value={order.status}
+                        onChange={(e) =>
+                          handleOrderChange(order.id, "status", e.target.value)
+                        }
+                        className="border p-2 rounded-md bg-white"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    )}
+
+                    <button
+                      onClick={() => handleOrderEditToggle(order.id)}
+                      className="bg-gray-400 text-white px-3 py-1 rounded-md hover:bg-gray-500"
                     >
-                      <option value="pending">Pending</option>
-                      <option value="processing">Processing</option>
-                      <option value="shipped">Shipped</option>
-                      <option value="delivered">Delivered</option>
-                      <option value="cancelled">Cancelled</option>
-                    </select>
+                      {order.isEditing ? "Done" : "Edit"}
+                    </button>
 
                     <button
                       onClick={() => handleOrderDelete(order.id)}

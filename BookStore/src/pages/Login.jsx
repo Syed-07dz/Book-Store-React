@@ -104,6 +104,15 @@ const Login = () => {
               Sign Up
             </span>
           </p>
+          <p className="text-center text-gray-500 mt-4">
+            admin Dashboard{" "}
+            <span
+              className="text-blue-500 cursor-pointer"
+              onClick={() => navigate("/Admindashboard")}
+            >
+              Admin Dashboard
+            </span>
+          </p>
         </div>
       </div>
     </div>
